@@ -57,6 +57,25 @@ export default function ScrollyCanvas() {
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
   };
 
+  // Handle resizing
+  useEffect(() => {
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = window.innerWidth;
+        canvasRef.current.height = window.innerHeight;
+        // Re-draw current frame on resize
+        if (window.scrollY < 20) {
+          drawFrame(autoPlayFrame.current);
+        } else {
+          drawFrame(renderFrameIndex.get());
+        }
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isPreloaded]);
+
   // Autoplay subtly when at the top
   useEffect(() => {
     let animationId: number;
@@ -87,8 +106,9 @@ export default function ScrollyCanvas() {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <canvas
           ref={canvasRef}
-          className="block w-full h-full"
+          className="block w-full h-full grayscale opacity-40 brightness-110 mix-blend-luminosity"
         />
+
       </div>
     </div>
   );

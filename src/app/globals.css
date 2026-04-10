@@ -3,13 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --background: #121212;
-  --foreground: #ededed;
+  --background: #ffffff;
+  --foreground: #1e293b;
+  --primary: #2563eb;
+  --secondary: #64748b;
+  --card-bg: #f8fafc;
+  --border: #e2e8f0;
+}
+
+[data-theme='dark'] {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --primary: #3b82f6;
+  --secondary: #94a3b8;
+  --card-bg: #1e293b;
+  --border: #334155;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 @layer utilities {
@@ -17,3 +32,35 @@ body {
     text-wrap: balance;
   }
 }
+
+.bg-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.table-container {
+  @apply overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card-bg)];
+}
+
+.custom-table {
+  @apply w-full text-sm text-left text-[var(--foreground)];
+}
+
+.custom-table th {
+  @apply px-6 py-4 font-bold uppercase tracking-wider bg-[var(--primary)] text-white;
+}
+
+.custom-table td {
+  @apply px-6 py-4 border-b border-[var(--border)];
+}
+
+.custom-table tr:hover {
+  background-color: color-mix(in srgb, var(--primary), transparent 95%);
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px var(--primary);
+  color: transparent;
+}
+
+

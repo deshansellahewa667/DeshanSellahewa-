@@ -1,30 +1,61 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
+
 export default function HUD() {
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
   return (
-    <div className="fixed inset-0 pointer-events-none z-20 overflow-hidden mix-blend-screen opacity-30">
-      {/* Scanning Line */}
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,1)] animate-scan"></div>
-      
-      {/* Grid Overlay */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `linear-gradient(rgba(245,158,11,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.05) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}
-      ></div>
+    <>
+      <div className="fixed inset-0 pointer-events-none z-20 overflow-hidden mix-blend-overlay opacity-20">
+        {/* Grid Overlay */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(var(--primary) 0.5px, transparent 0.5px), linear-gradient(90deg, var(--primary) 0.5px, transparent 0.5px)`,
+            backgroundSize: '40px 40px'
+          }}
+        ></div>
 
-      {/* Edge Accents */}
-      <div className="absolute top-8 left-8 border-t-2 border-l-2 border-amber-500/40 w-12 h-12"></div>
-      <div className="absolute top-8 right-8 border-t-2 border-r-2 border-amber-500/40 w-12 h-12"></div>
-      <div className="absolute bottom-8 left-8 border-b-2 border-l-2 border-amber-500/40 w-12 h-12"></div>
-      <div className="absolute bottom-8 right-8 border-b-2 border-r-2 border-amber-500/40 w-12 h-12"></div>
-
-      {/* Dynamic Coordinates (Corner) */}
-      <div className="absolute bottom-12 right-12 text-[10px] font-mono text-amber-500/60 flex flex-col items-end">
-        <span>LAT: 6.9271° N</span>
-        <span>LON: 79.8612° E</span>
-        <span className="mt-2">GEOAI_SYS_ACTIVE_v4.2</span>
+        {/* Edge Accents */}
+        <div className="absolute top-12 left-12 border-t border-l border-[var(--primary)] w-8 h-8 opacity-40"></div>
+        <div className="absolute top-12 right-12 border-t border-r border-[var(--primary)] w-8 h-8 opacity-40"></div>
+        <div className="absolute bottom-12 left-12 border-b border-l border-[var(--primary)] w-8 h-8 opacity-40"></div>
+        <div className="absolute bottom-12 right-12 border-b border-r border-[var(--primary)] w-8 h-8 opacity-40"></div>
       </div>
-    </div>
+
+      <div className="fixed top-8 right-8 z-50 pointer-events-auto">
+        <button
+          onClick={toggleTheme}
+          className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[var(--foreground)] hover:bg-white/20 transition-all shadow-xl"
+          aria-label="Toggle Theme"
+        >
+          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+        </button>
+      </div>
+
+      <div className="fixed bottom-8 left-8 z-20 pointer-events-none">
+        <div className="text-[10px] font-mono text-[var(--primary)]/60 flex flex-col uppercase tracking-widest">
+          <span>LAT: 6.9271° N</span>
+          <span>LON: 79.8612° E</span>
+          <span className="mt-1 opacity-40">GEOAI_CORE_V5.0</span>
+        </div>
+      </div>
+    </>
   );
 }
+

@@ -21,39 +21,41 @@ export default function ExperienceTable() {
   ];
 
   return (
-    <section className="bg-[#121212] pt-12 pb-24 px-8 md:px-24 text-white relative z-20">
+    <section className="bg-[var(--background)] pt-12 pb-24 px-8 md:px-24 text-[var(--foreground)] relative z-20 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 flex items-center gap-4">
-          Professional Journey
-          <span className="h-px flex-1 bg-white/10"></span>
-        </h2>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-2">
+              The <span className="text-[var(--primary)] uppercase">Professional</span> Journey
+            </h2>
+            <p className="text-[var(--secondary)] font-medium">Core milestones in Geospatial Intelligence.</p>
+          </div>
+          <div className="h-px flex-1 bg-[var(--border)] mb-4 hidden md:block ml-8"></div>
+        </div>
         
-        <div className="overflow-x-auto rounded-2xl border border-white/5 bg-[#161616]/50 backdrop-blur-xl">
-          <table className="w-full text-left border-collapse">
+        <div className="table-container shadow-2xl">
+          <table className="custom-table">
             <thead>
-              <tr className="border-b border-white/10 bg-white/5">
-                <th className="py-6 px-8 font-semibold text-amber-500 uppercase tracking-wider text-sm">Role</th>
-                <th className="py-6 px-8 font-semibold text-amber-500 uppercase tracking-wider text-sm">Company</th>
-                <th className="py-6 px-8 font-semibold text-amber-500 uppercase tracking-wider text-sm">Period</th>
-                <th className="py-6 px-8 font-semibold text-amber-500 uppercase tracking-wider text-sm">Specialization</th>
+              <tr>
+                <th>Role</th>
+                <th>Organization</th>
+                <th>Timeline</th>
+                <th>Specialization</th>
               </tr>
             </thead>
             <tbody>
               {experience.map((exp, index) => (
-                <tr 
-                  key={index} 
-                  className="group border-b border-white/5 hover:bg-white/[0.02] transition-colors"
-                >
-                  <td className="py-6 px-8 font-medium text-white group-hover:text-amber-400 transition-colors uppercase tracking-tight">
+                <tr key={index}>
+                  <td className="font-bold text-[var(--primary)] text-sm tracking-wide">
                     {exp.role}
                   </td>
-                  <td className="py-6 px-8 text-gray-400">{exp.company}</td>
-                  <td className="py-6 px-8">
-                    <span className="px-3 py-1 rounded-full bg-white/5 text-xs font-mono text-gray-300">
+                  <td className="text-[var(--foreground)] opacity-80 font-medium">{exp.company}</td>
+                  <td className="">
+                    <span className="px-3 py-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-bold border border-[var(--primary)]/20">
                       {exp.period}
                     </span>
                   </td>
-                  <td className="py-6 px-8 text-gray-400 font-light leading-relaxed">
+                  <td className="text-[var(--secondary)] font-normal italic">
                     {exp.focus}
                   </td>
                 </tr>
@@ -65,3 +67,4 @@ export default function ExperienceTable() {
     </section>
   );
 }
+
